@@ -1,0 +1,6 @@
+[package]
+name = "github-events"
+version = "0.1.0"
+authors = ["Karsten Jeschkies <jeskar@web.de>"]
+
+[dependencies]
