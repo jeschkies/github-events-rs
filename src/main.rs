@@ -3,13 +3,31 @@ extern crate tokio;
 use tokio::io;
 use tokio::net::TcpListener;
 use tokio::prelude::*;
+use std::net::Shutdown;
 
+/// Incredible simple hello world HTTP server.
+/// Simply call with `curl localhost:6142`.
 fn main() {
     let addr = "127.0.0.1:6142".parse().unwrap();
     let listener = TcpListener::bind(&addr).unwrap();
 
     let server = listener.incoming().for_each(|socket| {
         println!("accepted socket; addr={:?}", socket.peer_addr().unwrap());
+
+        let connection = io::write_all(socket, "HTTP/1.1 200 OK\n\n Hello World")
+            .then(|res|{
+                match res {
+                    Ok((socket, _)) => {
+                        println!("wrote message; success=true");
+                        socket.shutdown(Shutdown::Both).unwrap();
+                    },
+                    Err(_) => {
+                        println!("wrote message; success=true");
+                    },
+                };
+                Ok(())
+            });
+        tokio::spawn(connection);
 
         Ok(())
     })
