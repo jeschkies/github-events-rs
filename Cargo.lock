@@ -84,6 +84,7 @@ name = "github-events"
 version = "0.1.0"
 dependencies = [
  "tokio 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "tokio-io 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]

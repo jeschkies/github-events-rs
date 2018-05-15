@@ -1,6 +1,7 @@
+extern crate tokio_io;
 extern crate tokio;
 
-use tokio::io;
+use tokio_io::io;
 use tokio::net::TcpListener;
 use tokio::prelude::*;
 use std::str;
@@ -15,12 +16,12 @@ fn main() {
     let server = listener.incoming().for_each(|socket| {
         println!("accepted socket; addr={:?}", socket.peer_addr().unwrap());
 
-        let buf = Vec::with_capacity(256);
+        let buf = vec![0; 64];
         let connection = io::read_exact(socket, buf)
             .and_then(|(socket, data)| {
                 let d: Vec<u8> = data;
-                //let s = str::from_utf8(&d).unwrap();
-                println!("Received {:?}", d);
+                let s = str::from_utf8(&d).unwrap();
+                println!("Received {:?}", s);
                 io::write_all(socket, "HTTP/1.1 200 OK\n\n Hello World").then(|res|{
                     match res {
                         Ok((socket, _)) => {
