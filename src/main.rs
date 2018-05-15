@@ -16,7 +16,7 @@ fn main() {
         println!("accepted socket; addr={:?}", socket.peer_addr().unwrap());
 
         let buf = Vec::with_capacity(256);
-        let connection = io::read_until(socket, '\n' as u8, buf)
+        let connection = io::read_exact(socket, buf)
             .and_then(|(socket, data)| {
                 let d: Vec<u8> = data;
                 //let s = str::from_utf8(&d).unwrap();
