@@ -1,4 +1,5 @@
-#[macro_use] extern crate failure;
+#[macro_use]
+extern crate failure;
 extern crate futures;
 extern crate futures_cpupool;
 extern crate hyper;
